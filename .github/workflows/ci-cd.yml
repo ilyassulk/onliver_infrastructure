@@ -45,7 +45,7 @@ jobs:
           host: ${{ vars.SERVER_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "deploy/config"
+          source: "deploy/config/"
           target: "deploy"
 
       # Подключение по SSH, авторизация в Docker Hub на сервере и деплой нового стека
