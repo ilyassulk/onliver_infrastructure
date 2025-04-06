@@ -27,19 +27,19 @@ jobs:
             sudo docker stack rm onliver_infrastructure_stack || true
             echo "Waiting for the stack to stop..."
 
-      # Удаляем существующий config на сервере с использованием sudo
-      - name: Remove existing config on remote host
+      # Удаляем существующий deploy на сервере с использованием sudo
+      - name: Remove existing deploy on remote host
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ vars.SERVER_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            echo "Удаляем старый config с использованием sudo..."
-            sudo rm -rf config
+            echo "Удаляем старый deploy с использованием sudo..."
+            sudo rm -rf deploy
 
-      # Передача файла config на удалённый сервер
-      - name: Copy config to server
+      # Передача файла deploy на удалённый сервер
+      - name: Copy deploy to server
         uses: appleboy/scp-action@master
         with:
           host: ${{ vars.SERVER_HOST }}
