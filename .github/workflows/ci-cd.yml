@@ -60,4 +60,4 @@ jobs:
             sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN  }}
             echo "Deploying new stack..."
             ls
-            sudo docker stack deploy --detach=true -c ~/deploy/config/docker-compose.yaml onliver_infrastructure_stack
+            sudo docker stack deploy --detach=true -c ~/deploy/docker-compose.yaml onliver_infrastructure_stack
