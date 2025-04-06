@@ -1,0 +1,63 @@
+name: CI/CD Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      # Клонирование репозитория
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Остановка работающего стека и удаление старого образа
+      - name: Stop running stack and remove old image
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN  }}
+            echo "Stopping existing stack..."
+            sudo docker stack rm onliver_infrastructure_stack || true
+            echo "Waiting for the stack to stop..."
+
+      # Удаляем существующий config на сервере с использованием sudo
+      - name: Remove existing config on remote host
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            echo "Удаляем старый config с использованием sudo..."
+            sudo rm -rf config
+
+      # Передача файла config на удалённый сервер
+      - name: Copy config to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "deploy/config"
+          target: "deploy"
+
+      # Подключение по SSH, авторизация в Docker Hub на сервере и деплой нового стека
+      - name: Deploy new stack
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ vars.SERVER_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            echo "Logging in to Docker Hub on remote host..."
+            sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN  }}
+            echo "Deploying new stack..."
+            ls
+            sudo docker stack deploy --detach=true -c ~/deploy/config/docker-compose.yaml onliver_infrastructure_stack

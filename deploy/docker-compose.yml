@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: admin
+    networks:
+      - service-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server
+    volumes:
+      - redis_data:/data
+    networks:
+      - host-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  livekit:
+    image: livekit/livekit-server:latest
+    configs:
+      - source: livekit_config
+        target: /livekit/livekit.yaml
+        mode: 0444
+    command: --config /livekit/livekit.yaml
+    networks:
+      - host-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: none
+
+configs:
+  livekit_config:
+    file: config/livekit/livekit.yaml
+
+volumes:
+  mongo_data:
+  redis_data:
+
+networks:
+  host-network:
+    external: true
+    name: host
