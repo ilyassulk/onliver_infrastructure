@@ -11,7 +11,8 @@ redis:
   address: onliver.ru:6379
 
 keys:
-  livekit_key: ksdjfhgjkdfhjkhgdjkfhjgkhfdjkghjkfdhgjkdfjkfgijf
+  APIXMCTJEXDBghU: laxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL
+
 
 turn:
   enabled: true
@@ -19,3 +20,4 @@ turn:
   tls_port: 5349
   domain: "onliver.ru"
   external_tls: true
+
