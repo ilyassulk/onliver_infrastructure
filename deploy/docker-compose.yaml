@@ -30,6 +30,11 @@ services:
 
   livekit:
     image: livekit/livekit-server:latest
+    secrets:
+      - source: certificate_crt
+        target: certificate.crt
+      - source: certificate_key
+        target: certificate.key
     configs:
       - source: livekit_config
         target: /livekit/livekit.yaml
@@ -48,6 +53,12 @@ services:
 configs:
   livekit_config:
     file: config/livekit/livekit.yaml
+
+secrets:
+  certificate_crt:
+    file: config/livekit/certificate.crt
+  certificate_key:
+    file: config/livekit/certificate.key
 
 volumes:
   mongo_data:
