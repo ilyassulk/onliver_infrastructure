@@ -20,4 +20,5 @@ turn:
   tls_port: 5349
   domain: "onliver.ru"
   external_tls: true
-
+  cert_file: ./certificate.crt
+  key_file: ./certificate.key
