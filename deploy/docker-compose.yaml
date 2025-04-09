@@ -65,6 +65,48 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+  
+  livekit-ingress:
+    image: livekit/ingress:latest
+    environment:
+      LIVEKIT_API_KEY: "APIXMCTJEXDBghU"
+      LIVEKIT_API_SECRET: "lxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL"
+      LIVEKIT_WS_URL: "wss://onliver.ru:8080/livekit"
+      INGRESS_CONFIG_BODY: |
+        api_key: "APIXMCTJEXDBghU"
+        api_secret: "lxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL"
+        ws_url: "wss://onliver.ru:8080/livekit"
+        redis:
+          address: "onliver.ru:6379"
+        rtmp_port: 1935
+        whip_port: 8001
+        health_port: 9000
+        log_level: info
+    ports:
+      # RTMP порт
+      - target: 1935
+        published: 1935
+        protocol: tcp
+        mode: host
+      # WHIP порт, согласно требованию – публикуем на 8001
+      - target: 8001
+        published: 8001
+        protocol: tcp
+        mode: host
+      # Порт для health-check (опционально)
+      - target: 9000
+        published: 9000
+        protocol: tcp
+        mode: host
+    networks:
+      - host-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+    depends_on:
+      - redis
+      - livekit
 
 configs:
   livekit_config:
