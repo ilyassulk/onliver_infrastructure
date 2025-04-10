@@ -67,6 +67,7 @@ services:
         condition: any
   
   livekit-ingress:
+    image: livekit/ingress:latest
     environment:
       INGRESS_CONFIG_BODY: |
         api_key: "APIXMCTJEXDBghU"
