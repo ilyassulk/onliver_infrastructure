@@ -6,7 +6,7 @@ rtc:
   port_range_start: 50000
   port_range_end: 60000
   use_external_ip: true
-  buffer_size: 5000000
+  udp_buffer_size: 5000000
 
 redis:
   address: onliver.ru:6379
@@ -24,23 +24,5 @@ turn:
   cert_file: /run/secrets/certificate.crt
   key_file: /run/secrets/certificate.key
 
-# Добавить в livekit.yaml
-ingress:
-  rtmp:
-    enabled: true
-    bind_address: "0.0.0.0"  # Обязательно для RTMP
-  whip:
-    enabled: true
-    bind_address: "0.0.0.0"
-  requirements:
-    cpu: 
-      min: 1.0    # Минимум 1 ядро
-      recommended: 2.0
-    rtmp:
-      min: 1
-      recommended: 2
-    whip:
-      min: 1
-      recommended: 2
 
   
