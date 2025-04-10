@@ -23,5 +23,8 @@ turn:
   cert_file: /run/secrets/certificate.crt
   key_file: /run/secrets/certificate.key
 
+ingress:
+  rtmp_base_url: 'rtmps://onliver.ru:1935/live'
+  whip_base_url: 'https://onliver.ru:8001/whip'
 
   
