@@ -80,7 +80,9 @@ services:
           port: 1935           
         whip:
           enabled: true
-          port: 8001           
+          port: 8001      
+        rtmp_port: 1935
+        whip_port: 8001
         health_port: 9000
         log_level: info
         resource_requirements: 
@@ -90,6 +92,11 @@ services:
           rtmp:
             min: 1
             recommended: 2
+        cpu_cost:
+          rtmp_cpu_cost: 1.0
+          whip_cpu_cost: 1.0
+          whip_bypass_transcoding_cpu_cost: 1.0
+        
     ports:
       # RTMP порт
       - target: 1935
