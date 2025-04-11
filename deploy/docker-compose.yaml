@@ -80,6 +80,8 @@ services:
         health_port: 9000
         logging:
           level: debug
+        rtc_config:
+          use_external_ip: true
         resource_requirements: 
           cpu:
             min: 1.0
