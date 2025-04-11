@@ -1,5 +1,5 @@
 port: 7880
-log_level: info
+log_level: debug
 
 rtc:
   tcp_port: 7881
