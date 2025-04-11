@@ -74,24 +74,10 @@ services:
         api_secret: "lxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL"
         ws_url: "wss://onliver.ru:8080/livekit"
         redis:
-          address: "onliver.ru:6379"
-        rtmp:
-          enabled: true
-          port: 1935           
-        whip:
-          enabled: true
-          port: 8001      
+          address: "onliver.ru:6379"     
         rtmp_port: 1935
         whip_port: 8001
         health_port: 9000
-        log_level: info
-        resource_requirements: 
-          cpu:
-            min: 1.0
-            recommended: 2.0
-          rtmp:
-            min: 1
-            recommended: 2
         cpu_cost:
           rtmp_cpu_cost: 2
           whip_cpu_cost: 2
