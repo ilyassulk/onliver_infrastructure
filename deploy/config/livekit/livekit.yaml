@@ -11,7 +11,7 @@ redis:
   address: onliver.ru:6379
 
 keys:
-  APIXMCTJEXDBghU: laxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL
+  APIXMCTJEXDBghU:laxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL
 
 
 turn:
