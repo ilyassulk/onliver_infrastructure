@@ -70,8 +70,8 @@ services:
     image: livekit/ingress:latest
     environment:
       INGRESS_CONFIG_BODY: |
-        api_key:APIXMCTJEXDBghU
-        api_secret:laxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL
+        api_key: APIXMCTJEXDBghU
+        api_secret: laxpDMZwSmNlxvjHzG8YnZsti8ofCMRlY9H6OAL7EeL
         ws_url: "wss://onliver.ru:8080/livekit"
         redis:
           address: "onliver.ru:6379"     
@@ -117,7 +117,7 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: none
     depends_on:
       - redis
       - livekit
