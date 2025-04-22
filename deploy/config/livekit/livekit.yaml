@@ -27,4 +27,7 @@ ingress:
   rtmp_base_url: 'rtmp://onliver.ru:1935/live'
   whip_base_url: 'http://onliver.ru:8001/whip'
 
-  
+webhook:
+  api_key: APIXMCTJEXDBghU
+  urls:
+    - https://your-host.com/api/livekit/webhook
