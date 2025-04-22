@@ -30,4 +30,4 @@ ingress:
 webhook:
   api_key: APIXMCTJEXDBghU
   urls:
-    - http://onliver.ru:8080/api/livekit/webhook
+    - https://onliver.ru:8080/api/livekit/webhook
