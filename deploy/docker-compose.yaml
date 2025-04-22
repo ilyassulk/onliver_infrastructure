@@ -122,6 +122,32 @@ services:
       - redis
       - livekit
 
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+      - service-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - service-network
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+
 configs:
   livekit_config:
     file: config/livekit/livekit.yaml
@@ -141,3 +167,5 @@ networks:
   host-network:
     external: true
     name: host
+  service-network:
+    external: true
