@@ -143,6 +143,11 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - service-network
+    ports:
+      - target: 9092
+        published: 9092
+        protocol: tcp
+        mode: host
     deploy:
       replicas: 1
       restart_policy:
