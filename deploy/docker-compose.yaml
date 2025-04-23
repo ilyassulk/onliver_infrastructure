@@ -147,7 +147,6 @@ services:
       - target: 9092
         published: 9999
         protocol: tcp
-        mode: host
     deploy:
       replicas: 1
       restart_policy:
