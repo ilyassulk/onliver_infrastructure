@@ -145,7 +145,7 @@ services:
       - service-network
     ports:
       - target: 9092
-        published: 9092
+        published: 9999
         protocol: tcp
         mode: host
     deploy:
