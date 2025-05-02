@@ -1,35 +1,6 @@
 version: '3.8'
 
 services:
-  mongo:
-    image: mongo:latest
-    volumes:
-      - mongo_data:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: admin
-      MONGO_INITDB_DATABASE: admin
-    networks:
-      - host-network
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
-    depends_on:
-      - kafka
-
-  redis:
-    image: redis:7-alpine
-    command: redis-server
-    volumes:
-      - redis_data:/data
-    networks:
-      - host-network
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
-
   livekit:
     image: livekit/livekit-server:latest
     secrets:
@@ -48,24 +19,6 @@ services:
       replicas: 1
       restart_policy:
         condition: none
-    depends_on:
-      - mongo
-
-  minio:
-    image: minio/minio:latest
-    environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
-      MINIO_PROMETHEUS_AUTH_TYPE: public
-    volumes:
-      - minio_data:/data
-    command: server /data --console-address ":9001"
-    networks:
-      - host-network
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
   
   livekit-ingress:
     image: livekit/ingress:latest
@@ -119,43 +72,7 @@ services:
       replicas: 1
       restart_policy:
         condition: none
-    depends_on:
-      - livekit
 
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    networks:
-      - service-network
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
-
-  kafka:
-    image: confluentinc/cp-kafka:latest
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      # Слушаем внутри контейнера на 0.0.0.0:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      # Рекламируем внешний адрес:порт
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://onliver.ru:9999
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-    networks:
-      - service-network
-    ports:
-      - target: 9092
-        published: 9999
-        protocol: tcp
-    deploy:
-      replicas: 1
-      restart_policy:
-        condition: any
-    depends_on:
-      - redis
 
 configs:
   livekit_config:
@@ -167,14 +84,7 @@ secrets:
   certificate_key:
     file: config/livekit/certificate.key
 
-volumes:
-  mongo_data:
-  minio_data:
-  redis_data:
-
 networks:
   host-network:
     external: true
     name: host
-  service-network:
-    external: true

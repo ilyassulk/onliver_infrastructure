@@ -25,6 +25,7 @@ jobs:
             sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN  }}
             echo "Stopping existing stack..."
             sudo docker stack rm onliver_infrastructure_stack || true
+            sudo docker stack rm onliver_infrastructure_livekit_stack || true
             echo "Waiting for the stack to stop..."
 
       # Удаляем существующий deploy на сервере с использованием sudo
@@ -60,4 +61,5 @@ jobs:
             sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN  }}
             echo "Deploying new stack..."
             ls
-            sudo docker stack deploy --detach=true -c ~/deploy/docker-compose.yaml onliver_infrastructure_stack
+            sudo docker stack deploy --detach=true -c ~/deploy/docker-compose1.yaml onliver_infrastructure_stack
+            sudo docker stack deploy --detach=true -c ~/deploy/docker-compose2.yaml onliver_infrastructure_livekit_stack
