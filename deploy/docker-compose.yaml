@@ -15,6 +15,8 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+    depends_on:
+      - kafka
 
   redis:
     image: redis:7-alpine
@@ -47,7 +49,6 @@ services:
       restart_policy:
         condition: none
     depends_on:
-      - redis
       - mongo
 
   minio:
@@ -119,7 +120,6 @@ services:
       restart_policy:
         condition: none
     depends_on:
-      - redis
       - livekit
 
   zookeeper:
@@ -154,6 +154,8 @@ services:
       replicas: 1
       restart_policy:
         condition: any
+    depends_on:
+      - redis
 
 configs:
   livekit_config:
