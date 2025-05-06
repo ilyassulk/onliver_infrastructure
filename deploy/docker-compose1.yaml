@@ -77,11 +77,25 @@ services:
       restart_policy:
         condition: any
 
+  postgres:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: my_database
+    ports:
+      - target: 5432
+        published: 5432
+    volumes:
+      - postgre_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
 
 volumes:
   mongo_data:
   minio_data:
   redis_data:
+  postgre_data:
 
 networks:
   host-network:
