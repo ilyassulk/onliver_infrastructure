@@ -34,7 +34,6 @@ services:
       MINIO_ROOT_USER: admin
       MINIO_ROOT_PASSWORD: secret
       MINIO_PROMETHEUS_AUTH_TYPE: public
-      MINIO_OPTS: "--address :4725 --console-address :9001"
     secrets:
       - source: certificate_crt
         target: /root/.minio/certs/public.crt
@@ -44,7 +43,11 @@ services:
       - minio_data:/data
     networks:
       - host-network
-    command: server /data --certs-dir /root/.minio/certs
+    command:
+        server /data
+      --address ":9443"
+      --console-address ":9444"
+      --certs-dir "/root/.minio/certs"
     deploy:
       replicas: 1
       restart_policy:
