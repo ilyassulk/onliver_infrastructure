@@ -31,14 +31,20 @@ services:
   minio:
     image: minio/minio:latest
     environment:
-      MINIO_ROOT_USER: minioadmin
-      MINIO_ROOT_PASSWORD: minioadmin
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: secret
       MINIO_PROMETHEUS_AUTH_TYPE: public
+      MINIO_OPTS: "--address :9000 --console-address :9001"
+    secrets:
+      - source: certificate_crt
+        target: /root/.minio/certs/public.crt
+      - source: certificate_key
+        target: /root/.minio/certs/private.key
     volumes:
       - minio_data:/data
-    command: server /data --console-address ":9001"
     networks:
       - host-network
+    command: server /data --certs-dir /root/.minio/certs
     deploy:
       replicas: 1
       restart_policy:
@@ -105,3 +111,9 @@ networks:
     name: host
   service-network:
     external: true
+
+secrets:
+  certificate_crt:
+    file: config/livekit/certificate.crt
+  certificate_key:
+    file: config/livekit/certificate.key
