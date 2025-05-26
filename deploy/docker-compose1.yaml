@@ -89,8 +89,8 @@ services:
   postgres:
     image: postgres:14.1-alpine
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: onliveradmin
+      POSTGRES_PASSWORD: onliveradmin
       POSTGRES_DB: my_database
     volumes:
       - postgres_data:/var/lib/postgresql/data
