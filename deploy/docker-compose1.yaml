@@ -91,7 +91,7 @@ services:
     environment:
       POSTGRES_USER: onliveradmin
       POSTGRES_PASSWORD: onliveradmin
-      POSTGRES_DB: my_database
+      POSTGRES_DB: onliver_content
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
