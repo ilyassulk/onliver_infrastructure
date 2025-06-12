@@ -68,12 +68,21 @@ services:
   kafka:
     image: confluentinc/cp-kafka:latest
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      # Слушаем внутри контейнера на 0.0.0.0:9092
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      # Рекламируем внешний адрес:порт
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://onliver.ru:9999
+      # Всё, что связано с ZooKeeper — удалить!
+      # KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+      # Это больше не нужно:
+      # KAFKA_BROKER_ID: 1
+
+      # Вот что нужно добавить/оставить:
+      KAFKA_PROCESS_ROLES: "broker,controller"
+      KAFKA_NODE_ID: 1
+      CLUSTER_ID: "unikalniy_id"
+      KAFKA_CONTROLLER_QUORUM_VOTERS: "1@kafka:9093"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: "CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT"
+      KAFKA_CONTROLLER_LISTENER_NAMES: "CONTROLLER"
+      KAFKA_LISTENERS: "PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093"
+      KAFKA_ADVERTISED_LISTENERS: "PLAINTEXT://onliver.ru:9999,CONTROLLER://onliver.ru:9093"
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     networks:
       - service-network
@@ -84,7 +93,8 @@ services:
     deploy:
       replicas: 1
       restart_policy:
-        condition: any
+        condition: none
+
 
   postgres:
     image: postgres:14.1-alpine
